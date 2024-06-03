@@ -10,6 +10,9 @@ Api's
 ![image](https://github.com/Sujeet597/laravel-email-verification/assets/75562365/30c969c5-2b2c-4754-ae56-eabdf2908ab2)
 Task controller Login
 ![image](https://github.com/Sujeet597/laravel-email-verification/assets/75562365/5184b109-a236-4c5a-be3b-d0ca32eec9f2)
+Access Token Generate 
+![image](https://github.com/Sujeet597/laravel-email-verification/assets/75562365/914f24e1-eea7-41d2-afa1-7a2c9b49bfff)
+
 
 
 
