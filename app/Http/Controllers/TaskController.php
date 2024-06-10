@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
+use PhpParser\Node\Stmt\TryCatch;
 
 class TaskController extends Controller
 {
@@ -32,31 +33,27 @@ class TaskController extends Controller
 
     public function updateStatus($id)
    {
-    $user = Auth::user();
-    $task = Task::find($id);
+    try {
+        $user = Auth::user();
+        $task = Task::find($id);
 
-    // Check if task exists
-    if (!$task) {
-        return response()->json(['status' => 0,
-         'message' => 'Task not found'], 404);
+        if (!$task) {
+            return response()->json(['status' => 0,
+             'message' => 'Task not found'], 404);
+        }
+
+        if($task->status == 'done'){
+            $task->status = 'pending';
+        } else {
+            $task->status = 'done';
+        }
+        $task->save();
+
+        return response()->json(['status' => 1,
+         'message' => 'Task marked as done'], 201);
+    } catch (\Exception $e) {
+        return redirect()->back()->withErrors(['error' => 'Failed to update task. Please try again.']);
     }
 
-    // Update the status to 'done'
-    if($task->status == 'done'){
-        $task->status = 'pending';
-    } else {
-        $task->status = 'done';
-    }
-    $task->save();
-
-
-
-    return response()->json(['status' => 1,
-     'message' => 'Task marked as done'], 201);
    }
-
-
-
-
-
 }

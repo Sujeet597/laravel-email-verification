@@ -72,9 +72,9 @@
                 $('#header-message').text(response.message).fadeIn();
                 setTimeout(function() {
                     $('#header-message').fadeOut('slow', function() {
-                        $(this).text(''); // Clear the message text
+                        $(this).text(''); 
                     });
-                }, 1000); // Remove message after 1 second
+                }, 500); //
             } else {
                 alert(response.message);
             }
@@ -100,8 +100,8 @@
                     if (response.status === 1) {
                         $('#header-message').text(response.message).fadeIn();
                         setTimeout(function() {
-                            window.location.href = '/home'; // Redirect to home page
-                        }, 500); // Redirect after 0.5 second
+                            window.location.href = '/home';
+                        }, 500);
                     } else {
                         alert(response.message);
                     }
