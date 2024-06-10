@@ -72,7 +72,7 @@
                 $('#header-message').text(response.message).fadeIn();
                 setTimeout(function() {
                     $('#header-message').fadeOut('slow', function() {
-                        $(this).text(''); 
+                        $(this).text('');
                     });
                 }, 500); //
             } else {
@@ -125,9 +125,8 @@
                         if (response.status === 1) {
                             $('#header-message').text('Task marked as pending').fadeIn();
                             setTimeout(function() {
-                                window.location.href = '/home'; // Redirect to home page
-                            }, 500); // Redirect after 2 seconds
-                        } else {
+                                window.location.href = '/home'; 
+                            }, 500);
                             alert(response.message);
                         }
                     },
