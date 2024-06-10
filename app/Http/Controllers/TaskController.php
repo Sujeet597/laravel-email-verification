@@ -12,57 +12,51 @@ class TaskController extends Controller
 {
     public function addTask(Request $request)
     {
-        // Validate the request
-        $validatedData = $request->validate([
-            'task' => 'required|string',
-        ]);
+        try {
+            $validatedData = $request->validate([
+                'task' => 'required|string',
+            ]);
+            $user = Auth::user();
+            $task = Task::create([
+                'task' => $validatedData['task'],
+                'user_id' => $user->id,
+                'status' => 'pending'
+            ]);
+            return redirect('/home')->with('status', 'Task created successfully');
 
-        // Get the logged-in user
-        $user = Auth::user();
-
-        // Create a new task
-        $task = Task::create([
-            'task' => $validatedData['task'],
-            'user_id' => $user->id,
-            'status' => 'pending' // Default status
-        ]);
-
-        // Return the response
-        return response()->json([
-            'task' => $task,
-            'status' => 1,
-            'message' => 'Successfully created a task'
-        ], 201);
-    }
-
-    public function updateStatus(Request $request)
-    {
-        // Validate the request
-        $validatedData = $request->validate([
-            'task_id' => 'required|exists:tasks,id',
-            'status' => 'required|in:pending,done'
-        ]);
-
-        // Find the task
-        $task = Task::find($validatedData['task_id']);
-        if (!$task) {
-            return response()->json([
-                'status' => 0,
-                'message' => 'Task not found'
-            ], 404);
+        } catch (\Exception $e) {
+            return redirect()->back()->withErrors(['error' => 'Failed to create task. Please try again.']);
         }
-
-        // Update the status
-        $task->status = $validatedData['status'];
-        $task->save();
-
-        $message = $validatedData['status'] == 'done' ? 'Marked task as done' : 'Marked task as pending';
-
-        // Return the response
-        return response()->json([
-            'task' => $task,
-            'status' => 1,
-            'message' => $message
-        ]);
     }
+
+
+    public function updateStatus($id)
+   {
+    $user = Auth::user();
+    $task = Task::find($id);
+
+    // Check if task exists
+    if (!$task) {
+        return response()->json(['status' => 0,
+         'message' => 'Task not found'], 404);
+    }
+
+    // Update the status to 'done'
+    if($task->status == 'done'){
+        $task->status = 'pending';
+    } else {
+        $task->status = 'done';
+    }
+    $task->save();
+
+
+
+    return response()->json(['status' => 1,
+     'message' => 'Task marked as done'], 201);
+   }
+
+
+
+
+
 }

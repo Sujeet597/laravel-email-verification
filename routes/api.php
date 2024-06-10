@@ -14,4 +14,4 @@ Route::get('/',[Controller::class, 'ApiHome']);
 
 
 Route::middleware('auth:sanctum')->post('/todo/add', [TaskController::class, 'addTask'])->middleware(ApiKeyMiddleware::class);
-Route::middleware('auth:sanctum')->post('/todo/status', [TaskController::class, 'updateStatus'])->middleware(ApiKeyMiddleware::class);
+Route::middleware('auth:sanctum')->post('/todo/status/{id}', [TaskController::class, 'updateStatus'])->middleware(ApiKeyMiddleware::class);
